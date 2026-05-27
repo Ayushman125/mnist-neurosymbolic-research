@@ -235,6 +235,11 @@ def train_single_digit_model(
     return model
 
 
+def freeze_module(module: nn.Module) -> None:
+    for parameter in module.parameters():
+        parameter.requires_grad = False
+
+
 def train_sum_model(
     model: nn.Module,
     loader: DataLoader,
@@ -471,18 +476,12 @@ def run_experiment(config: ExperimentConfig):
 
     ood_perception = PerceptionNet().to(device)
     train_single_digit_model(ood_perception, train_loader_single, device, config.perception_epochs)
+    freeze_module(ood_perception)
+    ood_perception.eval()
 
     ood_nesy = NeuroSymbolicAddition(ood_perception).to(device)
     ood_baseline = PureNeuralBaseline().to(device)
 
-    train_sum_model(
-        ood_nesy,
-        ood_train_loader,
-        device,
-        config.ood_epochs,
-        learning_rate=5e-4,
-        label="NeSy-OOD",
-    )
     train_sum_model(
         ood_baseline,
         ood_train_loader,
@@ -498,7 +497,7 @@ def run_experiment(config: ExperimentConfig):
     print(f"[OOD Test] NeSy accuracy: {ood_nesy_acc:.2f}%")
     print(f"[OOD Test] Baseline accuracy: {ood_baseline_acc:.2f}%")
 
-    print("\n== Noise robustness on the OOD-trained models ==")
+    print("\n== Noise robustness on the frozen OOD NeSy model ==")
     nesy_noise, baseline_noise = evaluate_noise_robustness(
         ood_nesy, ood_baseline, ood_test_loader, device, config.noise_levels
     )

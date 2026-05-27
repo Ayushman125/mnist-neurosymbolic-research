@@ -4,7 +4,7 @@
     "baseline": 72.8
   },
   "ood_test_accuracy": {
-    "nesy": 18.4,
+    "nesy": 96.3,
     "baseline": 0.0
   },
   "noise_robustness": {
@@ -15,10 +15,10 @@
       0.9
     ],
     "nesy": [
-      4.0,
-      2.55,
-      0.7,
-      0.2
+      93.15,
+      92.0,
+      87.1,
+      73.45
     ],
     "baseline": [
       0.0,

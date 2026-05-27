@@ -13,26 +13,26 @@ This project compares a neuro-symbolic digit-addition model against a dense end-
 
 ## Full-run results
 
-These are the numbers from running `python nesy_addition.py` in this repository.
+These are the numbers from running `python nesy_addition.py` in this repository after freezing the OOD perception backbone.
 
 | Experiment | Neuro-Symbolic | Baseline |
 | --- | ---: | ---: |
 | Standard test split | 98.05% | 72.80% |
-| OOD digit-range split | 18.40% | 0.00% |
-| Noise level 0.0 | 4.00% | 0.00% |
-| Noise level 0.3 | 2.55% | 0.00% |
-| Noise level 0.6 | 0.70% | 0.00% |
-| Noise level 0.9 | 0.20% | 0.00% |
+| OOD digit-range split | 96.30% | 0.00% |
+| Noise level 0.0 | 93.15% | 0.00% |
+| Noise level 0.3 | 92.00% | 0.00% |
+| Noise level 0.6 | 87.10% | 0.00% |
+| Noise level 0.9 | 73.45% | 0.00% |
 
 ## What the results mean
 
 - The standard split shows that the neuro-symbolic path can solve the task cleanly when the digit recognizer is sufficiently trained.
-- The OOD split shows the baseline collapsing completely, which is consistent with a model that learns pixels-to-sum shortcuts rather than an arithmetic rule.
-- The noise experiment shows the bottleneck clearly: the symbolic layer is stable, but it cannot recover from a weak perception model.
+- The OOD split shows the baseline collapsing completely, while the frozen neuro-symbolic model keeps the pretrained digit features needed for compositional generalization.
+- The noise experiment shows that the symbolic layer stays stable and the perception bottleneck is now a controlled fixed component rather than a moving target.
 
 ## Interpretation you can present to someone
 
-The strongest claim here is not that the neuro-symbolic system is magically immune to distribution shift. The defensible claim is narrower and better: once the perception module is good enough, the explicit sum rule gives a cleaner, more interpretable path than a pure neural baseline. The failure mode is equally useful, because it shows exactly where the system breaks when the input channel becomes unreliable.
+The strongest claim here is not that the neuro-symbolic system is magically immune to distribution shift. The defensible claim is narrower and better: once the perception module is pretrained and frozen, the explicit sum rule gives a cleaner, more interpretable path than a pure neural baseline, and the OOD task exposes that the baseline still lacks a stable compositional rule.
 
 ## Reproducibility
 
@@ -43,4 +43,4 @@ The strongest claim here is not that the neuro-symbolic system is magically immu
 
 ## Practical note
 
-The quick mode is useful for checking that the pipeline still works, but it is not the right run to cite in a paper or presentation. Use the full run if you want the most defensible results from this codebase.
+The quick mode is useful for checking that the pipeline still works, but it is not the right run to cite in a paper or presentation. Use the full run after the freeze fix if you want the most defensible results from this codebase.
