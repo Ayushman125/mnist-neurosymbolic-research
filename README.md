@@ -41,24 +41,31 @@ flowchart TD
 
 - [NeSy-Add.ipynb](NeSy-Add.ipynb): exploratory notebook with the original experiment.
 - [nesy_addition.py](nesy_addition.py): reproducible script version with CLI options.
+- [FINDINGS.md](FINDINGS.md): compact analysis of the real script outputs and what they mean.
 - [noise_robustness_chart.png](noise_robustness_chart.png): chart produced in the notebook.
 - [results/](results): output folder used by the script for generated figures and JSON summaries.
 - [data/](data): MNIST files downloaded locally. This folder is ignored by Git.
 
 ## Latest observed results
 
-The notebook in this workspace has already been executed. The current stored results are:
+The notebook in this workspace has already been executed, but the script in [nesy_addition.py](nesy_addition.py) is the canonical reproducible entry point. The current notebook snapshot and the full script run tell two slightly different stories, so both are documented here.
 
 | Experiment | Neuro-Symbolic | Baseline |
 | --- | ---: | ---: |
-| Standard test split | 96.95% | 79.10% |
-| OOD digit-range split | 29.80% | 0.00% |
-| Noise level 0.0 | 78.65% | 44.90% |
-| Noise level 0.3 | 75.05% | 42.05% |
-| Noise level 0.6 | 70.20% | 44.25% |
-| Noise level 0.9 | 64.25% | 41.05% |
+| Notebook snapshot: standard test split | 96.95% | 79.10% |
+| Notebook snapshot: OOD digit-range split | 29.80% | 0.00% |
+| Notebook snapshot: noise level 0.0 | 78.65% | 44.90% |
+| Notebook snapshot: noise level 0.3 | 75.05% | 42.05% |
+| Notebook snapshot: noise level 0.6 | 70.20% | 44.25% |
+| Notebook snapshot: noise level 0.9 | 64.25% | 41.05% |
+| Full script run: standard test split | 98.05% | 72.80% |
+| Full script run: OOD digit-range split | 18.40% | 0.00% |
+| Full script run: noise level 0.0 | 4.00% | 0.00% |
+| Full script run: noise level 0.3 | 2.55% | 0.00% |
+| Full script run: noise level 0.6 | 0.70% | 0.00% |
+| Full script run: noise level 0.9 | 0.20% | 0.00% |
 
-These numbers come from the notebook cells that are already saved in this workspace. The script will regenerate the same style of outputs when run with the same configuration and seed.
+The notebook numbers come from the cells already saved in this workspace. The full script numbers come from running `python nesy_addition.py` in this repository after the clean rewrite. The gap between the notebook snapshot and the full script is explained by the different training budget and the fact that the script retrains fresh models before each evaluation block.
 
 ## How to run
 
@@ -74,11 +81,15 @@ Run a fast smoke test:
 python nesy_addition.py --quick
 ```
 
+The quick mode is only for verifying the pipeline. It is intentionally shorter and should not be used as the headline result in a paper or demo.
+
 Run the full experiment:
 
 ```bash
 python nesy_addition.py
 ```
+
+The full experiment is the version to cite when you want the most defensible numbers.
 
 Useful overrides:
 
@@ -100,6 +111,13 @@ The script writes these files into `results/`:
 - The symbolic layer is explicit and small enough to describe in one paragraph.
 - The baseline is a plain dense classifier, so the comparison is easy to understand.
 - The README and charts separate the experiment story from the code.
+
+## Findings map
+
+- Standard MNIST addition is a sanity check: the neuro-symbolic path learns the arithmetic rule more cleanly than the dense baseline.
+- The OOD split is the strongest compositionality test in the repo: the baseline falls to zero, while the neuro-symbolic model still keeps partial accuracy because the addition rule itself is fixed.
+- The noise experiment isolates the perceptual bottleneck: once the digit recognizer is weak or undertrained, the symbolic layer cannot rescue the prediction.
+- The main lesson is that the symbolic rule removes arithmetic ambiguity, but it does not remove dependence on digit recognition quality.
 
 ## Notes
 

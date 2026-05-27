@@ -1,10 +1,10 @@
 {
   "standard_test_accuracy": {
-    "nesy": 98.0,
-    "baseline": 21.0
+    "nesy": 98.05,
+    "baseline": 72.8
   },
   "ood_test_accuracy": {
-    "nesy": 40.25,
+    "nesy": 18.4,
     "baseline": 0.0
   },
   "noise_robustness": {
@@ -15,10 +15,10 @@
       0.9
     ],
     "nesy": [
-      25.75,
-      23.75,
-      14.75,
-      9.0
+      4.0,
+      2.55,
+      0.7,
+      0.2
     ],
     "baseline": [
       0.0,
