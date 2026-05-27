@@ -1,0 +1,34 @@
+{
+  "standard_test_accuracy": {
+    "nesy": 98.0,
+    "baseline": 21.0
+  },
+  "ood_test_accuracy": {
+    "nesy": 40.25,
+    "baseline": 0.0
+  },
+  "noise_robustness": {
+    "noise_levels": [
+      0.0,
+      0.3,
+      0.6,
+      0.9
+    ],
+    "nesy": [
+      25.75,
+      23.75,
+      14.75,
+      9.0
+    ],
+    "baseline": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "artifacts": {
+    "ood_accuracy_chart": "results\\ood_accuracy_chart.png",
+    "noise_robustness_chart": "results\\noise_robustness_chart.png"
+  }
+}
