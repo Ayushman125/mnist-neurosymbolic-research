@@ -32,7 +32,7 @@ These are the numbers from running `python nesy_addition.py` in this repository 
 
 ## Interpretation you can present to someone
 
-The strongest claim here is not that the neuro-symbolic system is magically immune to distribution shift. The defensible claim is narrower and better: once the perception module is pretrained and frozen, the explicit sum rule gives a cleaner, more interpretable path than a pure neural baseline, and the OOD task exposes that the baseline still lacks a stable compositional rule.
+The strongest claim here is not that the neuro-symbolic system is magically immune to distribution shift. The defensible claim is narrower and better: once the perception module is pretrained and frozen, the explicit sum rule gives a cleaner, more interpretable path than a pure neural baseline, and the OOD task exposes that the baseline still lacks a stable compositional rule. The baseline still has 19 output classes, so the 0.00% OOD score reflects failed generalization rather than a missing label space.
 
 ## Reproducibility
 
