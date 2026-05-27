@@ -48,7 +48,7 @@ flowchart TD
 
 ## Latest observed results
 
-The notebook in this workspace has already been executed, but the script in [nesy_addition.py](nesy_addition.py) is the canonical reproducible entry point. The current notebook snapshot and the corrected full script run tell two different stories, so both are documented here.
+The notebook in this workspace has already been executed, but the script in [nesy_addition.py](nesy_addition.py) is the canonical reproducible entry point. The notebook snapshot and the script run are both valid, but they are not identical experiments: the notebook samples digit pairs on the fly, while the script uses seeded fixed pairs and freezes the OOD perception backbone.
 
 | Experiment | Neuro-Symbolic | Baseline |
 | --- | ---: | ---: |
@@ -65,7 +65,7 @@ The notebook in this workspace has already been executed, but the script in [nes
 | Full script run: noise level 0.6 | 87.10% | 0.00% |
 | Full script run: noise level 0.9 | 73.45% | 0.00% |
 
-The notebook numbers come from the cells already saved in this workspace. The full script numbers come from running `python nesy_addition.py` in this repository after the OOD freeze fix. The gap between the notebook snapshot and the full script is explained by the different training budget and the fact that the script now freezes the OOD perception backbone instead of fine-tuning it on the shifted digit range.
+The notebook numbers come from the cells already saved in this workspace. The full script numbers come from running `python nesy_addition.py` in this repository after the OOD freeze fix. The gap between the notebook snapshot and the full script is explained by three things: the notebook samples pairs on demand, the script precomputes seeded pairs, and the script freezes the OOD perception backbone instead of fine-tuning it on the shifted digit range.
 
 ## Result Chart
 
